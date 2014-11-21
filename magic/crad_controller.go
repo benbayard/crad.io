@@ -33,6 +33,5 @@ func (cc *CradController) Cmc(w http.ResponseWriter, r *http.Request, ps httprou
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
