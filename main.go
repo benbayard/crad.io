@@ -8,14 +8,8 @@ import (
 	"net/http"
 )
 
-func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprint(w, "Welcome!\n")
-}
-
 func main() {
 	router := httprouter.New()
-	router.GET("/", Index)
-
 	crads, cmcs := crad.GetCrads()
 
 	cc := &crad.CradController{
@@ -23,10 +17,12 @@ func main() {
 		Cmcs:  cmcs,
 	}
 
-	router.GET("/crads/cmcs/:cmc", cc.Cmc)
-	// router.GET("/crads/:crad", cc.get)
+	router.GET("/crad/:crad", cc.Show)
+	router.GET("/cmc/:cmc",   cc.Cmc)
 
-	// fmt.Printf("%#v", cmcs[1])
+	a := crad.CreateUser("Ben Bayard", "bjbayard@gmail.com", "bjbayard", "testpassword")
+
+	fmt.Printf("%#v", a)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 
