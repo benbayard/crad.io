@@ -17,12 +17,29 @@ func main() {
 		Cmcs:  cmcs,
 	}
 
+	uc := &crad.UserController{}
+
 	router.GET("/crad/:crad", cc.Show)
-	router.GET("/cmc/:cmc",   cc.Cmc)
+	router.GET("/cmc/:cmc", cc.Cmc)
 
-	a := crad.CreateUser("Ben Bayard", "bjbayard@gmail.com", "bjbayard", "testpassword")
+	router.GET("/user", uc.Index)
+	router.POST("/user", uc.Create)
+	router.GET("/user/:id", uc.Show)
+	router.PUT("/user/:id", uc.Update)
+	router.POST("/user/:id", uc.Update)
 
-	fmt.Printf("%#v", a)
+	router.POST("/login", uc.Login)
+
+	// user, token := crad.UserNew("Ben B", "bjbayard3@gmail.com", "bjbayard3", "testpassword")
+
+	// fmt.Printf("%#v \n", user)
+	// fmt.Printf("Token: \n")
+	// fmt.Printf("%#v \n", token)
+
+	// valid, err := user.ValidToken(token)
+
+	// fmt.Printf("Valid Token For User: %#v, %#v \n", valid, err)
+	fmt.Println("Starting Server...")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 
