@@ -41,10 +41,18 @@ func databaseConnect() (*mgo.Session, *mgo.Collection) {
 		Unique:     true,
 		Background: true,
 	}
+
+	deckIndex := mgo.Index{
+		Key:        []string{"_id decks.name"},
+		Unique:     true,
+		Background: true,
+	}
+
 	// username
 	userCollection := session.DB("crad").C("users")
 	err = userCollection.EnsureIndex(index)
 	err = userCollection.EnsureIndex(unIndex)
+	err = userCollection.EnsureIndex(deckIndex)
 	if err != nil {
 		panic(err)
 	}
@@ -221,6 +229,17 @@ func UserById(id string) User {
 	return user
 }
 
+func UserByUsername(username string) User {
+	session, userCollection := databaseConnect()
+	defer session.Close()
+
+	user := User{}
+
+	userCollection.Find(bson.M{"username": username}).One(&user)
+
+	return user
+}
+
 func UserByEmail(email string) User {
 	user := User{}
 	session, userCollection := databaseConnect()
@@ -259,6 +278,10 @@ func (user *User) Save(changes map[string]string) {
 
 	if changed == true {
 		user.Validate()
+
+		if !user.Valid {
+			return
+		}
 
 		err := userCollection.UpdateId(user.Id, user)
 
