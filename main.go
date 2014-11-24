@@ -8,6 +8,17 @@ import (
 	"net/http"
 )
 
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+  http.ServeFile(w, r, "assets/html/index.html")
+}
+
+func ServeFile(w http.ResponseWriter, r *http.Request, ps httprouter.Params)  {
+	fmt.Printf("File Requested: %#v", ps.ByName("file"))
+  http.ServeFile(w, r, "assets/"+ps.ByName("file"))
+
+}
+
+
 func main() {
 	router := httprouter.New()
 	crads, cmcs := crad.GetCrads()
@@ -37,6 +48,11 @@ func main() {
 	router.POST( "/decks/:username", dc.Create)
 	router.PUT(  "/decks/:username", dc.AddCrad)
 	router.PATCH("/decks/:username", dc.EditCrad)
+
+	router.GET("/app/*path", Index)
+	router.GET("/", Index)
+
+	router.GET("/assets/*file", ServeFile)
 
 	// user, token := crad.UserNew("Ben B", "bjbayard3@gmail.com", "bjbayard3", "testpassword")
 
