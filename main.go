@@ -9,15 +9,14 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-  http.ServeFile(w, r, "assets/html/index.html")
+	http.ServeFile(w, r, "assets/html/index.html")
 }
 
-func ServeFile(w http.ResponseWriter, r *http.Request, ps httprouter.Params)  {
-	fmt.Printf("File Requested: %#v", ps.ByName("file"))
-  http.ServeFile(w, r, "assets/"+ps.ByName("file"))
+func ServeFile(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	// fmt.Printf("File Requested: %#v", ps.ByName("file"))
+	http.ServeFile(w, r, "assets/"+ps.ByName("file"))
 
 }
-
 
 func main() {
 	router := httprouter.New()
@@ -36,23 +35,23 @@ func main() {
 	router.GET("/crad/:crad", cc.Show)
 	router.GET("/cmc/:cmc", cc.Cmc)
 
-	router.GET( "/user", uc.Index)
+	router.GET("/user", uc.Index)
 	router.POST("/user", uc.Create)
 
-	router.GET( "/user/:id", uc.Show)
-	router.PUT( "/user/:id", uc.Update)
+	router.GET("/user/:id", uc.Show)
+	router.PUT("/user/:id", uc.Update)
 	router.POST("/user/:id", uc.Update)
 
 	router.POST("/login", uc.Login)
 
-	router.POST( "/decks/:username", dc.Create)
-	router.PUT(  "/decks/:username", dc.AddCrad)
+	router.POST("/decks/:username", dc.Create)
+	router.PUT("/decks/:username", dc.AddCrad)
 	router.PATCH("/decks/:username", dc.EditCrad)
 
 	router.GET("/app/*path", Index)
 	router.GET("/", Index)
 
-	router.GET("/assets/*file", ServeFile)
+	router.GET("/asset/*file", ServeFile)
 
 	// user, token := crad.UserNew("Ben B", "bjbayard3@gmail.com", "bjbayard3", "testpassword")
 
