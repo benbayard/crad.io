@@ -1,0 +1,33 @@
+<form novalidate
+      class=     "login-user ui form" 
+      name=      "loginUser"  
+      ng-submit= "loginUser.$valid && getToken()"
+      accessible-form
+    >
+  <section class="two required fields">
+    <section class="input-wrapper field" ng-class="{ 'has-error' : loginUser.name.$invalid && (loginUser.email.$touched || loginUser.$submitted)}">
+      <label for="placeName">Email</label>
+      <input type="email" 
+             name="email" 
+             placeholder="blah@blah.com" 
+             ng-model="user.email"
+             ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"
+             required
+      />
+      <p>{{loginUser.email.$error}}</p>
+    </section>
+    <section class="input-wrapper field" ng-class="{ 'has-error' : loginUser.name.$invalid && (loginUser.name.$touched || loginUser.$submitted)}">
+      <label for="placeName">Password</label>
+      <input type="password" 
+             name="password" 
+             placeholder="********" 
+             ng-model="user.password"
+             ng-min-length="8"
+             required
+      />
+      <p>{{loginUser.password.$error}}</p>
+    </section>
+
+    <button class="ui positive button">Login</button>
+  </section>
+</form>

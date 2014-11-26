@@ -13,9 +13,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func ServeFile(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// fmt.Printf("File Requested: %#v", ps.ByName("file"))
 	http.ServeFile(w, r, "assets/"+ps.ByName("file"))
-
 }
 
 func main() {
@@ -51,17 +49,8 @@ func main() {
 	router.GET("/app/*path", Index)
 	router.GET("/", Index)
 
-	router.GET("/asset/*file", ServeFile)
+	router.GET("/assets/*file", ServeFile)
 
-	// user, token := crad.UserNew("Ben B", "bjbayard3@gmail.com", "bjbayard3", "testpassword")
-
-	// fmt.Printf("%#v \n", user)
-	// fmt.Printf("Token: \n")
-	// fmt.Printf("%#v \n", token)
-
-	// valid, err := user.ValidToken(token)
-
-	// fmt.Printf("Valid Token For User: %#v, %#v \n", valid, err)
 	fmt.Println("Starting Server...")
 
 	log.Fatal(http.ListenAndServe(":8080", router))

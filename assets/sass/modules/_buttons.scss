@@ -1,0 +1,10 @@
+.nav-to {
+  padding: 1rem;
+  display: flex;
+}
+
+.button.center {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

@@ -1,0 +1,13 @@
+.sitewide-header {
+  height: $header-height;
+  padding: 0 $body-spacing;
+  .navigate-site {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+.logo-title {
+  font-size: 2rem;
+}

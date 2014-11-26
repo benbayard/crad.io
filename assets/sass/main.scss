@@ -1,3 +1,14 @@
+$header-height: 50px;
+$body-height:   calc(100vh - #{$header-height});
+
+$body-spacing: 1rem;
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
 @import "reset";
 
-@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "modules/sitewide-header";
+@import "modules/flex-body";
+@import "modules/buttons";

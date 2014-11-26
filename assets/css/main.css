@@ -1,3 +1,89 @@
-/*# sourceMappingURL=main.scss.map */
+body {
+  -webkit-font-smoothing: antialiased; }
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+button {
+  appearance: none;
+  border: none;
+  background: inherit;
+  color: inherit; }
+
+.sitewide-header {
+  height: 50px;
+  padding: 0 1rem; }
+  .sitewide-header .navigate-site {
+    display: flex;
+    align-items: center;
+    height: 100%; }
+
+.logo-title {
+  font-size: 2rem; }
+
+.sitewide-navigation, .sitewide-body {
+  margin-left: 1rem !important;
+  width: inherit !important;
+  flex-grow: 100%; }
+
+.sitewide-navigation {
+  flex: 3; }
+
+.site-scaffold {
+  display: flex;
+  height: calc(100vh - 50px); }
+
+.sitewide-body {
+  flex: 9;
+  margin-right: 1rem !important; }
+
+.nav-to {
+  padding: 1rem;
+  display: flex; }
+
+.button.center {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%); }
 
 /*# sourceMappingURL=main.css.map */

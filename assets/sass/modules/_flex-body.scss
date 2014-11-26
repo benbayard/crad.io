@@ -1,0 +1,26 @@
+%site-element {
+  // padding: {
+  //   left: 2rem;
+  //   right: 3rem;
+  // }
+  margin-left: $body-spacing!important;
+  width: inherit!important;
+  flex-grow: 100%;
+}
+
+.sitewide-navigation {
+  flex: 3; 
+  @extend %site-element;
+}
+
+.site-scaffold {
+  display: flex;
+  height: $body-height;
+}
+
+.sitewide-body {
+  flex: 9;
+  margin-right: $body-spacing!important;
+  @extend %site-element;
+
+}
