@@ -51,8 +51,8 @@ func (u *User) DeckNew(name string, description string, format string) (deck *De
 		u.Validate()
 
 		if u.Valid {
-			session, userCollection := databaseConnect()
-			defer session.Close()
+			_, userCollection := GlobalConnection.GetDB()
+			// defer session.Close()
 
 			err := userCollection.UpdateId(u.Id, u)
 

@@ -1,0 +1,62 @@
+.ui.cards {
+  display: flex;
+  > .crad.card {
+    width: 262px;
+    // flex: 1;
+    position: relative;
+
+    .content {
+      margin-bottom: 40px;
+    }
+    .extra.content {
+      position: absolute;
+      bottom: 0px;
+      top: inherit;
+      margin-bottom:0;
+      width: 100%;
+    }
+    .crad-image-holder {
+      height: 190px;
+      overflow: hidden;
+      > img {
+        transform: translateY(-44px);
+        $img-offset: 18px;
+        left: -1 * $img-offset;
+        right: -1 * $img-offset;
+        position: relative;
+        width: calc(100% + #{(2 * $img-offset)});
+      }
+    }
+  }
+}
+
+.crad.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  .avatar {
+    overflow: hidden;
+    display: inline-block!important;
+    flex: 1;
+    opacity: .5;
+    img {
+      height: 2.5em;
+      width: 2.5em;
+      max-width: 2.5em;
+      margin-right: 10px;
+      transform: scale(2.5) translateY(6px);
+    }
+  }
+  .content {
+    flex: 2;
+    display: inline-block!important;
+  }
+  .quantity {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%) translateX(-50%);
+    color:white;
+    text-shadow: 1px 1px 1px black;
+  }
+}

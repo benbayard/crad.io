@@ -16,14 +16,19 @@ func ServeFile(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	http.ServeFile(w, r, "assets/"+ps.ByName("file"))
 }
 
+// var GlobalConnection crad.DBConnection
+
 func main() {
 	router := httprouter.New()
-	crads, cmcs := crad.GetCrads()
+	crads, cmcs, cradAry := crad.GetCrads()
 
 	cc := &crad.CradController{
-		Crads: crads,
-		Cmcs:  cmcs,
+		Crads:   crads,
+		Cmcs:    cmcs,
+		CradAry: cradAry,
 	}
+
+	// crad.DatabaseConnect()
 
 	uc := &crad.UserController{}
 	dc := &crad.DeckController{
@@ -31,6 +36,8 @@ func main() {
 	}
 
 	router.GET("/crad/:crad", cc.Show)
+	router.GET("/crads/:search", cc.Search)
+
 	router.GET("/cmc/:cmc", cc.Cmc)
 
 	router.GET("/user", uc.Index)
@@ -41,10 +48,12 @@ func main() {
 	router.POST("/user/:id", uc.Update)
 
 	router.POST("/login", uc.Login)
+	router.POST("/admin/:username", uc.ValidToken)
 
 	router.POST("/decks/:username", dc.Create)
 	router.PUT("/decks/:username", dc.AddCrad)
 	router.PATCH("/decks/:username", dc.EditCrad)
+	router.GET("/decks/:username/:deckname", dc.Show)
 
 	router.GET("/app/*path", Index)
 	router.GET("/", Index)

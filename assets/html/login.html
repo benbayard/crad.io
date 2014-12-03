@@ -6,7 +6,7 @@
     >
   <section class="two required fields">
     <section class="input-wrapper field" ng-class="{ 'has-error' : loginUser.name.$invalid && (loginUser.email.$touched || loginUser.$submitted)}">
-      <label for="placeName">Email</label>
+      <label for="email">Email</label>
       <input type="email" 
              name="email" 
              placeholder="blah@blah.com" 
@@ -17,7 +17,7 @@
       <p>{{loginUser.email.$error}}</p>
     </section>
     <section class="input-wrapper field" ng-class="{ 'has-error' : loginUser.name.$invalid && (loginUser.name.$touched || loginUser.$submitted)}">
-      <label for="placeName">Password</label>
+      <label for="password">Password</label>
       <input type="password" 
              name="password" 
              placeholder="********" 

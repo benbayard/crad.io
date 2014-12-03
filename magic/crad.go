@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"sort"
 )
 
 type Crad struct {
@@ -19,7 +20,7 @@ type Crad struct {
 	Subtypes   []string `json:"subtypes"`
 }
 
-func GetCrads() (map[string]Crad, map[float64][]*Crad) {
+func GetCrads() (map[string]Crad, map[float64][]*Crad, []string) {
 	cradList, err := ioutil.ReadFile("./AllCards-x.json")
 	if err != nil {
 		log.Fatal("opening config file", err.Error())
@@ -33,17 +34,27 @@ func GetCrads() (map[string]Crad, map[float64][]*Crad) {
 	}
 
 	// now we need to parse each field!
-	cmcs := indexCmc(crads)
-
-	return crads, cmcs
-}
-
-func indexCmc(crads map[string]Crad) map[float64][]*Crad {
 	cmcs := make(map[float64][]*Crad)
+	var cradAry []string
 	for key, crad := range crads {
 		actualCrad := crads[key]
 		cmcs[crad.Cmc] = append(cmcs[crad.Cmc], &actualCrad)
+		cradAry = append(cradAry, actualCrad.Name)
 	}
 
-	return cmcs
+	sort.Strings(cradAry)
+
+	// okay, this is a lie, we have to do  it differently
+
+	return crads, cmcs, cradAry
 }
+
+// func indexCmc(crads map[string]Crad) map[float64][]*Crad {
+// 	cmcs := make(map[float64][]*Crad)
+// 	for key, crad := range crads {
+// 		actualCrad := crads[key]
+// 		cmcs[crad.Cmc] = append(cmcs[crad.Cmc], &actualCrad)
+// 	}
+
+// 	return cmcs
+// }

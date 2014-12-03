@@ -29,7 +29,39 @@ const (
 	TokenSign         = "I love Things That Work This Well! WHAT"
 )
 
-func databaseConnect() (*mgo.Session, *mgo.Collection) {
+var GlobalConnection DBConnection
+
+// func databaseConnect() (*mgo.Session, *mgo.Collection) {
+// 	session, err := mgo.Dial("localhost:27017")
+// 	index := mgo.Index{
+// 		Key:        []string{"email"},
+// 		Unique:     true,
+// 		Background: true,
+// 	}
+// 	unIndex := mgo.Index{
+// 		Key:        []string{"username"},
+// 		Unique:     true,
+// 		Background: true,
+// 	}
+
+// 	deckIndex := mgo.Index{
+// 		Key:        []string{"_id decks.name"},
+// 		Unique:     true,
+// 		Background: true,
+// 	}
+
+// 	// username
+// 	userCollection := session.DB("crad").C("users")
+// 	err = userCollection.EnsureIndex(index)
+// 	err = userCollection.EnsureIndex(unIndex)
+// 	err = userCollection.EnsureIndex(deckIndex)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	return session, userCollection
+// }
+
+func DatabaseConnect() {
 	session, err := mgo.Dial("localhost:27017")
 	index := mgo.Index{
 		Key:        []string{"email"},
@@ -56,7 +88,9 @@ func databaseConnect() (*mgo.Session, *mgo.Collection) {
 	if err != nil {
 		panic(err)
 	}
-	return session, userCollection
+
+	GlobalConnection.Session = session
+	GlobalConnection.Collection = userCollection
 }
 
 // you use clear because it removed the password in plain text from memory.
@@ -68,8 +102,8 @@ func clear(b []byte) {
 
 func UserNew(name string, email string, username string, password string) (*User, string) {
 	defer clear([]byte(password))
-	session, userCollection := databaseConnect()
-	defer session.Close()
+	_, userCollection := GlobalConnection.GetDB()
+	// // defer session.Close()
 
 	if validatePassword(password) == false {
 		user := &User{}
@@ -219,8 +253,8 @@ func (u *User) ValidToken(r *http.Request) (bool, error) {
 }
 
 func UserById(id string) User {
-	session, userCollection := databaseConnect()
-	defer session.Close()
+	_, userCollection := GlobalConnection.GetDB()
+	// defer session.Close()
 
 	user := User{}
 
@@ -230,8 +264,8 @@ func UserById(id string) User {
 }
 
 func UserByUsername(username string) User {
-	session, userCollection := databaseConnect()
-	defer session.Close()
+	_, userCollection := GlobalConnection.GetDB()
+	// defer session.Close()
 
 	user := User{}
 
@@ -242,8 +276,8 @@ func UserByUsername(username string) User {
 
 func UserByEmail(email string) User {
 	user := User{}
-	session, userCollection := databaseConnect()
-	defer session.Close()
+	_, userCollection := GlobalConnection.GetDB()
+	// defer session.Close()
 
 	userCollection.Find(bson.M{"email": email}).One(&user)
 	return user
@@ -255,8 +289,8 @@ func (user *User) CorrectPassword(password string) error {
 }
 
 func (user *User) Save(changes map[string]string) {
-	session, userCollection := databaseConnect()
-	defer session.Close()
+	_, userCollection := GlobalConnection.GetDB()
+	// defer session.Close()
 
 	changed := false
 

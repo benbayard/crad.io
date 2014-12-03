@@ -19,7 +19,7 @@
     <div class="item">
       <i class="icon grid layout"></i> My Decks
       <div class="menu">
-        <a ng-href="/app/decks/{{deck.id}}" class="deck item" ng-repeat="deck in user.decks">{{deck.name}}<i class="angle right icon"></i></a>
+        <a ng-href="/app/decks/{{user.username}}/{{deck.name}}" class="deck item" ng-repeat="deck in user.decks">{{deck.name}}<i class="angle right icon"></i></a>
       </div>
       <a class="ui teal basic button center"><i class="icon add"></i> Add Deck</a>
     </div>

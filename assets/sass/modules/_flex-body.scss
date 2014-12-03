@@ -10,17 +10,22 @@
 
 .sitewide-navigation {
   flex: 3; 
+  height: $body-height;
+  margin-bottom: 2rem;
+  @extend %not-mobile;
   @extend %site-element;
 }
 
 .site-scaffold {
   display: flex;
-  height: $body-height;
 }
 
 .sitewide-body {
   flex: 9;
   margin-right: $body-spacing!important;
+  background: white;
+  box-shadow: 0px 0px 0px 1px rgba(39, 41, 43, 0.15), 0px 1px 2px 0 rgba(0, 0, 0, 0.05);
+  padding: 1rem;
   @extend %site-element;
 
 }

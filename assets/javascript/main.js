@@ -8,6 +8,9 @@ app.config([
     }).when("/app/account", {
       templateUrl: "/assets/html/account.html",
       controller: "AccountController"      
+    }).when("/app/decks/:username/:deckname", {
+      templateUrl: "/assets/html/deck.html",
+      controller:  "DeckController"
     });
     return $locationProvider.html5Mode(true);
   }
@@ -41,7 +44,11 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
     $rootScope.loggedIn = false;
   }
 
-  $scope.user = JSON.parse(localStorage.user);
+  if (localStorage.user) {
+    $scope.user = JSON.parse(localStorage.user);
+  } else {
+    $scope.user = {}
+  }
 
   console.log($scope.user.decks);
 
@@ -73,6 +80,106 @@ app.controller('LoginController', ['$scope', '$http', '$rootScope', function($sc
   }
 }]);
 
-app.controller('AccountController', ['$scope', function($scope){
+app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope',function($scope, $http, $routeParams, $rootScope){
+  $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;
+
+  $scope.deck = {};
+  $scope.active = 'column';
+  $scope.types = {};
+
+  $scope.editing = false;
+
+  $scope.startEditing = function() {
+    $scope.editing = true;
+  }
+
+  $scope.isActive = function(type) {
+    return type == $scope.active;
+  }
+  // if ($rootScope.user.)
+  $http.get("/decks/" + $routeParams.username + "/" + $routeParams.deckname)
+    .success(function(data) {
+      console.log("SUCCESSSS");
+      console.log(data);
+      $scope.deck = data;
+      for (cradName in $scope.deck.crads) {
+        var crad = $scope.deck.crads[cradName];
+        console.log(crad);
+        window.crads = $scope.deck.crads;
+        if(localStorage[crad.name]) {
+          $scope.deck.crads[crad.name].cradData = JSON.parse(localStorage[crad.name]);
+          if ($scope.types[crad.cradData.types[0]] == undefined) {
+            $scope.types[crad.cradData.types[0]] = new Array($scope.deck.crads[crad.name]);
+          } else {
+            $scope.types[crad.cradData.types[0]].push($scope.deck.crads[crad.name])
+          }
+        } else {
+          $http.get("/crad/" + crad.name).success(function(data) {
+            localStorage[data.name] = JSON.stringify(data);
+            $scope.deck.crads[data.name].cradData = data;
+            console.log(data);
+            window.crads = $scope.deck.crads;
+            if ($scope.types[crad.cradData.types[0]] == undefined) {
+              $scope.types[crad.cradData.types[0]] = new Array($scope.deck.crads[crad.name]);
+            } else {
+              $scope.types[crad.cradData.types[0]].push($scope.deck.crads[crad.name])
+            }
+          });          
+        }
+      }
+        
+    });
+  
+  $http.post("/admin/" + $routeParams.username, {}).success(function(data) {
+    $scope.admin = true;
+  });
+
+  $scope.suggestCard = function(crad) {
+    $http.get("/crads/" + crad.name)
+      .success(function(data) {
+        crad.suggestions = data;
+        console.log(data);
+      });
+  }
+
+  $scope.setName = function(crad, suggestion) {
+    crad.name = suggestion;
+    delete crad.suggestions
+    return true;
+  }
+
+  $scope.isCradName = function(crad, suggestion) {
+    return crad.name === suggestion;
+  }
+
+  $scope.gotoCradname = function(crad, e) {
+    if (e.keyCode === 32) {
+      // console.log(e.target.value);
+      e.target.value = e.target.value.replace(/\s/g, "");
+      setTimeout(function() {
+        e.target.nextElementSibling.focus();
+      }, 0);
+      return false;
+    }
+  }
+
+  $scope.handleCradChange = function(crad, e) {
+    console.log("KEY HIT BABY!")
+    if (e.keyCode === 13) {
+      // handle enter keypress
+    } else if (e.keyCode === 8) {
+      // handle backspace
+      console.log(crad.name);
+      if(!crad.name || crad.name.length === 0 || e.target.selectionEnd === 0 ) {
+        setTimeout(function() {
+          e.target.previousElementSibling.focus();
+        }, 0);
+      }
+    }
+  }
+
+}]);
+
+app.controller('AccountController', ['$scope', '$http', function($scope, $http){
   
 }]);

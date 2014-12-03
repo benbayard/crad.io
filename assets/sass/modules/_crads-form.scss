@@ -1,0 +1,59 @@
+.ui.form .crad-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: {
+    bottom: 1rem;
+  }
+  &:active {
+    box-shadow: 1px 0em 0em 0em rgba(39, 41, 43, 0.3) inset;
+  }
+  input[type="number"].crad-quantity {
+    flex: 1;
+    padding: {
+      right: 0px;
+      left: 0px;
+    }
+    text-align: center;
+    border: {
+      right: none;
+      top-right-radius:    0px;
+      bottom-right-radius: 0px;
+    }
+    &:focus {
+      box-shadow: none!important;
+      border-color: rgba(39, 41, 43, 0.15)!important;
+    }
+  }
+  input[type="text"].crad-name {
+    flex: 7;
+    border: {
+      left: none;
+      top-left-radius:    0px;
+      bottom-left-radius: 0px;
+    }
+    &:focus {
+      box-shadow: none!important;
+      border-color: rgba(39, 41, 43, 0.15)!important;
+
+    }
+  }
+
+  .suggestions {
+    width: 100%;
+    border: 1px solid rgba(39, 41, 43, 0.15)!important;
+    border: {
+      bottom-left-radius:  4px;
+      bottom-right-radius: 4px;
+      top: 0px;
+    }
+    margin-top: -2px;
+    p {
+      padding: 1rem;
+      margin: 0px;
+      &.active {
+        background: #F8F8F8;
+      }
+    }
+  }
+}
+

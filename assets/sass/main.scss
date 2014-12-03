@@ -1,14 +1,23 @@
-$header-height: 50px;
-$body-height:   calc(100vh - #{$header-height});
-
-$body-spacing: 1rem;
+// @media #{$information-phone} {
+//   background: red;
+// }
 
 body {
   -webkit-font-smoothing: antialiased;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
 
 @import "reset";
+@import "variables";
+@import "utils";
 
 @import "modules/sitewide-header";
 @import "modules/flex-body";
 @import "modules/buttons";
+@import "modules/crads";
+@import "modules/crads-form";

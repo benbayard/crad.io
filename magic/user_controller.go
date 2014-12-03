@@ -11,7 +11,11 @@ import (
 type UserController struct{}
 
 func (uc *UserController) Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	session, userCollection := databaseConnect()
+	DatabaseConnect()
+	fmt.Printf("Global Connection: ", GlobalConnection)
+
+	session, userCollection := GlobalConnection.GetDB()
+
 	defer session.Close()
 
 	var result []*User
@@ -112,6 +116,28 @@ func (uc *UserController) Show(w http.ResponseWriter, r *http.Request, ps httpro
 	userId := ps.ByName("id")
 
 	user := UserById(userId)
+
+	js, err := json.Marshal(user)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(js)
+}
+
+func (uc *UserController) ValidToken(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	username := ps.ByName("username")
+
+	user := UserByUsername(username)
+	// okay so we have the  user, now we just have to approve the user.
+	valid, err := user.ValidToken(r)
+
+	if err != nil || !valid {
+		http.Error(w, "Incorrect Token", http.StatusForbidden)
+		return
+	}
 
 	js, err := json.Marshal(user)
 

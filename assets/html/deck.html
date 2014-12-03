@@ -1,0 +1,83 @@
+<h2 class="page-name ui dividing header">{{deck.name}} <i class="circular inverted teal edit icon edit-button" ng-click="startEditing()"></i></h2>
+<div class="ui icon buttons" ng-show="!editing">
+  <div class="ui button" ng-class="{active: isActive('block')}" ng-click="active = 'block';"><i class="icon block layout"></i></div>
+  <div class="ui button" ng-class="{active: isActive('list')}" ng-click="active = 'list';"><i class="icon list layout"></i></div>
+  <div class="ui button" ng-class="{active: isActive('column')}" ng-click="active = 'column';"><i class="icon columns"></i></div>
+</div>
+
+<section class="ui" ng-class="{cards: isActive('block'), 'very relaxed list': isActive('list')}" ng-hide="isActive('column');" ng-show="!editing" >
+  <div class="crad" ng-class="{card: isActive('block'), 'item': isActive('list')}" ng-repeat="crad in deck.crads">
+    <div ng-class="{'image crad-image-holder': isActive('block'), 'ui avatar image': isActive('list')}"><img ng-src="http://mtgimage.com/card/{{crad.name}}.jpg" alt=""></div>
+    <div class="content">
+      <p class="header">{{crad.name}}</p>
+      <div class="meta">
+        {{crad.cradData.type}}
+      </div>
+      <div class="description" ng-show="isActive('block')">
+        {{crad.cradData.text}}
+        
+      </div>
+    </div>
+    <div class="extra content">
+      <p class="quantity">{{crad.quantity}} <span ng-show="isActive('block')">in deck </span></p>
+    </div>
+  </div>
+</section>
+
+<section class="columns" ng-show="isActive('column')" ng-hide="editing">
+  <div class="type" ng-repeat="(key, crads) in types">
+    <h3> {{key}} {{crads.length}} </h3>
+    <section class="ui very relaxed list">
+      <div class="crad item" ng-repeat="crad in crads">
+        <div class="ui avatar image"><img ng-src="http://mtgimage.com/card/{{crad.name}}.jpg" alt=""></div>
+        <div class="content">
+          <p class="header">{{crad.name}}</p>
+          <div class="meta">
+            {{crad.cradData.type}}
+          </div>
+        </div>
+        <div class="extra content">
+          <p class="quantity">{{crad.quantity}}</p>
+        </div>
+      </div>
+    </section>
+    <div class="ui divider"></div>
+  </div>
+</section>
+
+<section class="editing-the-crads" ng-show="editing">
+  <form novalidate
+      class=     "edit-deck ui form" 
+      name=      "editDeck"  
+      ng-submit= "editDeck.$valid && getToken()"
+      accessible-form>
+    <section class="input-wrapper field" ng-class="{ 'has-error' : editDeck.name.$invalid && (editDeck.crads.$touched || editDeck.$submitted)}">
+      <div class="crad-wrapper" ng-repeat="crad in deck.crads">
+        <input type=        "number" 
+               name=        "quantity" 
+               class=       "crad-quantity"
+               max=         "4"
+               min=         "1"
+               placeholder= "1" 
+               ng-model=    "crad.quantity"
+               onblur="this.value.split(' ').join('')"
+               ng-keypress= "gotoCradname(crad, $event)"
+               required
+        />
+        <input type=        "text" 
+               name=        "name" 
+               class=       "crad-name"
+               placeholder= "Cradddddddd" 
+               ng-model=    "crad.name"
+               ng-change=   "suggestCard(crad)"
+               ng-keyup=    "handleCradChange(crad, $event)"
+               required
+        />
+        <div class="suggestions">
+          <p ng-repeat="suggestion in crad.suggestions" ng-class="{active: isCradName(crad, suggestion)}" ng-click="setName(crad, suggestion)">{{suggestion}}</p>
+        </div>
+      </div>
+      <p>{{editDeck.crads.$error}}</p>
+    </section>
+  </form>
+</section>

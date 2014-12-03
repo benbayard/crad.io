@@ -12,6 +12,30 @@ type DeckController struct {
 	Crads map[string]Crad
 }
 
+func (dc *DeckController) Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	deckname := ps.ByName("deckname")
+	username := ps.ByName("username")
+
+	fmt.Printf("Deckname: %#v, Username: %#v \n", deckname, username)
+
+	user := UserByUsername(username)
+
+	deckIndex := user.DeckByName(deckname)
+
+	deck := user.Decks[deckIndex]
+
+	fmt.Printf("Deck: %#v\n User: %#v \n", deck, user)
+
+	js, err := json.Marshal(deck)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(js)
+}
+
 func (dc *DeckController) Create(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -134,8 +158,8 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 	fmt.Printf("Users: %#v \n", user)
 
 	if user.Valid {
-		session, userCollection := databaseConnect()
-		defer session.Close()
+		_, userCollection := GlobalConnection.GetDB()
+		// defer session.Close()
 
 		err := userCollection.UpdateId(user.Id, user)
 
