@@ -47,6 +47,10 @@ func (u *User) DeckNew(name string, description string, format string) (deck *De
 	deck.Validate()
 
 	if deck.Valid == true {
+		if hasDeck := u.DeckByName(deck.Name); hasDeck != -1 {
+			u.Errors = append(u.Errors, "Deck Name Already Exists For You")
+			return deck	
+		}
 		u.Decks = append(u.Decks, *deck)
 		u.Validate()
 

@@ -63,6 +63,7 @@ func (dc *DeckController) Create(w http.ResponseWriter, r *http.Request, ps http
 
 	if newDeck == nil {
 		http.Error(w, "Incorrect Data Structure", http.StatusNotAcceptable)
+		return 
 	}
 
 	_ = user.DeckNew(newDeck["name"], newDeck["description"], newDeck["format"])
@@ -124,6 +125,10 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 
 	crads := areCrads.([]interface{})
 
+	isChanged := false;
+
+	deck.Crads = make(map[string]DeckCrad)
+
 	fmt.Printf("Crads: %#v \n", crads)
 
 	for _, tmpCrad := range crads {
@@ -140,8 +145,10 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 		_, okay := dc.Crads[n]
 		if okay != true {
 			fmt.Println("NOT OKAY CRAD")
+			user.Valid  = false;
 			deck.Errors = append(deck.Errors, "Crad "+n+" does not exist")
 		} else {
+			isChanged = true
 			deck.Crads[n] = DeckCrad{
 				Quantity: q,
 				CradName: n,
@@ -157,7 +164,7 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 
 	fmt.Printf("Users: %#v \n", user)
 
-	if user.Valid {
+	if user.Valid && isChanged == true {
 		_, userCollection := GlobalConnection.GetDB()
 		// defer session.Close()
 

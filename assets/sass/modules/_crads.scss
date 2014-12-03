@@ -16,16 +16,16 @@
       width: 100%;
     }
     .crad-image-holder {
-      height: 190px;
-      overflow: hidden;
-      > img {
-        transform: translateY(-44px);
-        $img-offset: 18px;
-        left: -1 * $img-offset;
-        right: -1 * $img-offset;
-        position: relative;
-        width: calc(100% + #{(2 * $img-offset)});
-      }
+      // height: 190px;
+      // overflow: hidden;
+      // > img {
+      //   transform: translateY(-44px);
+      //   $img-offset: 18px;
+      //   left: -1 * $img-offset;
+      //   right: -1 * $img-offset;
+      //   position: relative;
+      //   width: calc(100% + #{(2 * $img-offset)});
+      // }
     }
   }
 }

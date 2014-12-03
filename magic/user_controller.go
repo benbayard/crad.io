@@ -14,9 +14,7 @@ func (uc *UserController) Index(w http.ResponseWriter, r *http.Request, _ httpro
 	DatabaseConnect()
 	fmt.Printf("Global Connection: ", GlobalConnection)
 
-	session, userCollection := GlobalConnection.GetDB()
-
-	defer session.Close()
+	_, userCollection := GlobalConnection.GetDB()
 
 	var result []*User
 	iter := userCollection.Find(nil).Iter()

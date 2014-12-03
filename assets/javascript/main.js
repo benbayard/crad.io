@@ -1,4 +1,4 @@
-app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource', 'ngAnimate']);
+var app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource', 'ngAnimate']);
 
 app.config([
   "$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
@@ -11,17 +11,24 @@ app.config([
     }).when("/app/decks/:username/:deckname", {
       templateUrl: "/assets/html/deck.html",
       controller:  "DeckController"
+    }).when("/app/decks/:username/new", {
+      templateUrl: "/assets/html/new-deck.html",
+      controller:  "NewDeckController"      
+    }).when("/app/decks/:username/:deckname/edit", {
+      templateUrl: "/assets/html/new-deck.html",
+      controller:  "NewDeckController"      
     });
+    
     return $locationProvider.html5Mode(true);
   }
-  ]);
+]);
 
 app.directive("sitewideHeader", function() {
   return {
     restrict: "E",
     templateUrl: "/assets/html/sitewide-header.html",
     controller: "SitewideHeaderController"
-  }
+  };
 });
 
 app.directive("navAside", function() {
@@ -47,7 +54,7 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
   if (localStorage.user) {
     $scope.user = JSON.parse(localStorage.user);
   } else {
-    $scope.user = {}
+    $scope.user = {};
   }
 
   console.log($scope.user.decks);
@@ -80,7 +87,7 @@ app.controller('LoginController', ['$scope', '$http', '$rootScope', function($sc
   }
 }]);
 
-app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope',function($scope, $http, $routeParams, $rootScope){
+app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope', '$location', function($scope, $http, $routeParams, $rootScope, $location){
   $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;
 
   $scope.deck = {};
@@ -90,7 +97,8 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
   $scope.editing = false;
 
   $scope.startEditing = function() {
-    $scope.editing = true;
+    // $scope.editing = true;
+    $location.path("/app/decks/" + $routeParams.username + "/" + $routeParams.deckname + "/edit");
   }
 
   $scope.isActive = function(type) {
@@ -134,52 +142,9 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
     $scope.admin = true;
   });
 
-  $scope.suggestCard = function(crad) {
-    $http.get("/crads/" + crad.name)
-      .success(function(data) {
-        crad.suggestions = data;
-        console.log(data);
-      });
-  }
-
-  $scope.setName = function(crad, suggestion) {
-    crad.name = suggestion;
-    delete crad.suggestions
-    return true;
-  }
-
-  $scope.isCradName = function(crad, suggestion) {
-    return crad.name === suggestion;
-  }
-
-  $scope.gotoCradname = function(crad, e) {
-    if (e.keyCode === 32) {
-      // console.log(e.target.value);
-      e.target.value = e.target.value.replace(/\s/g, "");
-      setTimeout(function() {
-        e.target.nextElementSibling.focus();
-      }, 0);
-      return false;
-    }
-  }
-
-  $scope.handleCradChange = function(crad, e) {
-    console.log("KEY HIT BABY!")
-    if (e.keyCode === 13) {
-      // handle enter keypress
-    } else if (e.keyCode === 8) {
-      // handle backspace
-      console.log(crad.name);
-      if(!crad.name || crad.name.length === 0 || e.target.selectionEnd === 0 ) {
-        setTimeout(function() {
-          e.target.previousElementSibling.focus();
-        }, 0);
-      }
-    }
-  }
-
 }]);
 
 app.controller('AccountController', ['$scope', '$http', function($scope, $http){
   
 }]);
+
