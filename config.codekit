@@ -2773,6 +2773,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/assets\/html\/edit-deck.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/html\/edit-deck.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/assets\/html\/index.html": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2826,8 +2835,8 @@
 		"outputAbbreviatedPath": "\/assets\/javascript\/min\/_edit-deck-controller-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
+		"outputStyle": 0,
+		"syntaxCheckerStyle": 0
 		},
 	"\/assets\/javascript\/_new-deck-controller.js": {
 		"fileType": 64,
@@ -2839,6 +2848,17 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 0
+		},
+	"\/assets\/javascript\/main-com.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/javascript\/main-com.js",
+		"outputAbbreviatedPath": "\/assets\/javascript\/min\/main-com-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
 		},
 	"\/assets\/javascript\/main.js": {
 		"fileType": 64,
@@ -2896,7 +2916,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -2912,7 +2932,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -2928,7 +2948,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -2943,9 +2963,9 @@
 		"outputAbbreviatedPath": "\/assets\/css\/main.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
-		"outputStyle": 3,
+		"outputStyle": 0,
 		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 1,
+		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
 	"\/assets\/sass\/modules\/_buttons.scss": {
@@ -2960,7 +2980,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -2976,7 +2996,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -2992,7 +3012,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -3008,7 +3028,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -3024,7 +3044,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -3050,6 +3070,12 @@
 			"linkedFileAbbreviatedPath": "\/assets\/javascript\/_new-deck-controller.js",
 			"position": 0,
 			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/assets\/javascript\/_edit-deck-controller.js",
+			"position": 1,
+			"type": 1
 			}
 		]
 	},
@@ -3060,10 +3086,10 @@
 	"iconImageName": "brackets_brown"
 	},
 "projectSettings": {
-	"alwaysUseExternalServer": 0,
+	"alwaysUseExternalServer": 1,
 	"animateCSSInjections": 1,
 	"autoApplyPSLanguageSettingsStyle": 0,
-	"autoprefixerBrowserString": "> 1%, last 2 versions, Firefox ESR, Opera 12.1",
+	"autoprefixerBrowserString": "> 2%, last 3 versions, Firefox ESR, Opera 12.1, iOS 6",
 	"autoSyncProjectSettingsFile": 1,
 	"browserRefreshDelay": 0,
 	"coffeeAutoOutputPathEnabled": 1,
@@ -3194,7 +3220,7 @@
 	"coffeeMinifyOutput": 1,
 	"coffeeOutputStyle": 0,
 	"coffeeSyntaxCheckerStyle": 1,
-	"externalServerAddress": "http:\/\/localhost:8888",
+	"externalServerAddress": "http:\/\/localhost:8080",
 	"externalServerPreviewPathAddition": "",
 	"genericWebpageFileExtensionsString": "html, htm, shtml, shtm, xhtml, php, jsp, asp, aspx, erb, ctp",
 	"hamlAutoOutputPathEnabled": 1,
@@ -3646,7 +3672,7 @@
 	"sassDecimalPrecision": 10,
 	"sassOutputStyle": 0,
 	"sassUseLibsass": 0,
-	"shouldRunAutoprefixer": 0,
+	"shouldRunAutoprefixer": 1,
 	"shouldRunBless": 0,
 	"skippedItemsString": ".svn, .git, .hg, log, _logs, _cache, cache, logs, node_modules",
 	"slimAutoOutputPathEnabled": 1,

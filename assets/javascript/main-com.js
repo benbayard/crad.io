@@ -1,4 +1,4 @@
-var app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource', 'ngAnimate']);
+var app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource']);
 
 app.config([
   "$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
@@ -8,15 +8,15 @@ app.config([
     }).when("/app/account", {
       templateUrl: "/assets/html/account.html",
       controller: "AccountController"      
-    }).when("/app/decks/:username/:deckname", {
-      templateUrl: "/assets/html/deck.html",
-      controller:  "DeckController"
     }).when("/app/decks/:username/new", {
       templateUrl: "/assets/html/new-deck.html",
       controller:  "NewDeckController"      
+    }).when("/app/decks/:username/:deckname", {
+      templateUrl: "/assets/html/deck.html",
+      controller:  "DeckController"
     }).when("/app/decks/:username/:deckname/edit", {
-      templateUrl: "/assets/html/new-deck.html",
-      controller:  "NewDeckController"      
+      templateUrl: "/assets/html/edit-deck.html",
+      controller:  "EditDeckController"      
     });
     
     return $locationProvider.html5Mode(true);
@@ -53,6 +53,9 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
 
   if (localStorage.user) {
     $scope.user = JSON.parse(localStorage.user);
+    $http.post("/admin/" + $scope.user.username, {}).success(function(data) {
+      $scope.user = data;
+    });
   } else {
     $scope.user = {};
   }
@@ -150,12 +153,34 @@ app.controller('AccountController', ['$scope', '$http', function($scope, $http){
 
 
 
-app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location){
+app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location) {
+  $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;  
+
+  $scope.deck = {};
+  $scope.admin = false;
+  $http.post("/admin/" + $routeParams.username, {})
+    .success(function(data) {
+      $scope.admin = true;
+    });
+  $scope.saveDeck = function() {
+    console.log("$scope.deck = ", $scope.deck);
+    $http.post("/decks/"+ $routeParams.username, {
+      deck: $scope.deck
+    }).success(function(data) {
+      window.theData = data;
+      // $location.path("/decks/" + $routeParams.username + "/" + $scope.deck.name);
+    });
+  }
+
+}]);
+
+
+app.controller('EditDeckController', ['$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location){
   console.log($scope);
 
   $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;  
 
-  $scope.admin = true;
+  $scope.admin = false;
 
   $scope.deck = {
     crads: []
@@ -200,9 +225,27 @@ app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$locati
 
     // get the last one
 
+    // setTimeout(function() {
+    //   // cradQuantities = document.querySelectorAll(".crad-quantity");
+    //   // cradQuantities[cradQuantities.length - 1].focus();
+    // }, 10);
+    if ($scope.deck.crads[$scope.deck.crads.length-1] === crad)  {
+      // if this crad is the last crad! 
+      $scope.deck.crads.push({quantity: 1, name: ""});
+    }
     setTimeout(function() {
-      cradQuantities = document.querySelectorAll(".crad-quantity");
-      cradQuantities[cradQuantities.length - 1].focus();
+      setTimeout(function() {
+        for (var crad in $scope.deck.crads) {
+          delete $scope.deck.crads[crad].suggestions;
+        }
+        $scope.$apply();
+      }, 10)
+      var qs = document.querySelectorAll(".quantity")
+      for (var i = 0; i < qs.length; qs++) {
+        qs[i].value.trim()
+      }
+
+      e.target.parentElement.nextElementSibling.children[0].focus();
     }, 10);
 
     return true;
@@ -221,12 +264,42 @@ app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$locati
       }, 0);
       return false;
     }
+    if (e.keyCode === 13) {
+      return false;
+    }
   }
 
-  $scope.handleCradChange = function(crad, e) {
-    console.log("KEY HIT BABY!")
+  $scope.preventSubmit = function(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      return false;      
+    }
+  }
+
+  $scope.handleCradChange = function(crad, e, i) {
+    console.log("KEY HIT BABY!");
+    e.preventDefault();
     if (e.keyCode === 13) {
       // handle enter keypress
+      if ($scope.deck.crads[$scope.deck.crads.length-1] === crad)  {
+        // if this crad is the last crad! 
+        $scope.deck.crads.push({quantity: 1, name: ""});
+      }
+      setTimeout(function() {
+        setTimeout(function() {
+          for (var crad in $scope.deck.crads) {
+            delete $scope.deck.crads[crad].suggestions;
+          }
+          $scope.$apply();
+        }, 10)
+        var qs = document.querySelectorAll(".quantity")
+        for (var i = 0; i < qs.length; qs++) {
+          qs[i].value.trim()
+        }
+
+        e.target.parentElement.nextElementSibling.children[0].focus();
+
+      }, 10);
     } else if (e.keyCode === 8) {
       // handle backspace
       console.log(crad.name);
@@ -238,6 +311,7 @@ app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$locati
         }
       }
     }
+    return false;
   }
 
   $scope.saveDeck = function() {

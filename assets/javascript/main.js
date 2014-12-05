@@ -1,4 +1,4 @@
-var app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource', 'ngAnimate']);
+var app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource']);
 
 app.config([
   "$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
@@ -8,15 +8,15 @@ app.config([
     }).when("/app/account", {
       templateUrl: "/assets/html/account.html",
       controller: "AccountController"      
-    }).when("/app/decks/:username/:deckname", {
-      templateUrl: "/assets/html/deck.html",
-      controller:  "DeckController"
     }).when("/app/decks/:username/new", {
       templateUrl: "/assets/html/new-deck.html",
       controller:  "NewDeckController"      
+    }).when("/app/decks/:username/:deckname", {
+      templateUrl: "/assets/html/deck.html",
+      controller:  "DeckController"
     }).when("/app/decks/:username/:deckname/edit", {
-      templateUrl: "/assets/html/new-deck.html",
-      controller:  "NewDeckController"      
+      templateUrl: "/assets/html/edit-deck.html",
+      controller:  "EditDeckController"      
     });
     
     return $locationProvider.html5Mode(true);
@@ -53,6 +53,9 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
 
   if (localStorage.user) {
     $scope.user = JSON.parse(localStorage.user);
+    $http.post("/admin/" + $scope.user.username, {}).success(function(data) {
+      $scope.user = data;
+    });
   } else {
     $scope.user = {};
   }

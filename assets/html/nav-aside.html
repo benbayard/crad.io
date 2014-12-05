@@ -21,7 +21,7 @@
       <div class="menu">
         <a ng-href="/app/decks/{{user.username}}/{{deck.name}}" class="deck item" ng-repeat="deck in user.decks">{{deck.name}}<i class="angle right icon"></i></a>
       </div>
-      <a class="ui teal basic button center"><i class="icon add"></i> Add Deck</a>
+      <a class="ui teal basic button center" ng-href="/app/decks/{{user.username}}/new"><i class="icon add"></i> Add Deck</a>
     </div>
   </nav>
 </aside>

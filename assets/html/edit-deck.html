@@ -1,0 +1,39 @@
+<h2 class="page-name ui dividing header">{{deck.name}}</h2>
+<section class="editing-the-crads">
+  <form novalidate
+      class=     "edit-deck ui form" 
+      name=      "editDeck"  
+      ng-submit= "saveDeck()"
+      accessible-form>
+    <section class="input-wrapper field" ng-class="{ 'has-error' : editDeck.name.$invalid && (editDeck.crads.$touched || editDeck.$submitted)}">
+      <div class="crad-wrapper" ng-repeat="crad in deck.crads track by $index">
+        <input type=        "number" 
+               name=        "quantity" 
+               class=       "crad-quantity"
+               max=         "4"
+               min=         "1"
+               placeholder= "1" 
+               ng-model=    "crad.quantity"
+               ng-keydown=  "preventSubmit($event)"
+               onblur="this.value.split(' ').join('')"
+               ng-keypress= "gotoCradname(crad, $event)"
+               required
+        />
+        <input type=        "text" 
+               name=        "name" 
+               class=       "crad-name"
+               placeholder= "Cradddddddd" 
+               ng-model=    "crad.name"
+               ng-keyup=    "suggestCard(crad); handleCradChange(crad, $event, $index)"
+               ng-keydown=  "preventSubmit($event)"
+               required
+        />
+        <div class="suggestions">
+          <p ng-repeat="suggestion in crad.suggestions" ng-class="{active: isCradName(crad, suggestion)}" ng-click="setName(crad, suggestion, deck)">{{suggestion}}</p>
+        </div>
+      </div>
+      <p>{{editDeck.$error}}</p>
+    </section>
+    <input type="submit" value="SAVE ME" class="ui button blue">
+  </form>
+</section>

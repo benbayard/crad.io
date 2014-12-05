@@ -1,10 +1,15 @@
 .ui.cards {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @include respond-to(mobile) { justify-content: center; }
   > .crad.card {
-    width: 262px;
-    // flex: 1;
+    // width: calc(50% - .5em);
+    flex: 1 0 auto;
+    max-width: 250px;
+    margin-left:0px;
     position: relative;
-
     .content {
       margin-bottom: 40px;
     }
@@ -15,18 +20,7 @@
       margin-bottom:0;
       width: 100%;
     }
-    .crad-image-holder {
-      // height: 190px;
-      // overflow: hidden;
-      // > img {
-      //   transform: translateY(-44px);
-      //   $img-offset: 18px;
-      //   left: -1 * $img-offset;
-      //   right: -1 * $img-offset;
-      //   position: relative;
-      //   width: calc(100% + #{(2 * $img-offset)});
-      // }
-    }
+
   }
 }
 

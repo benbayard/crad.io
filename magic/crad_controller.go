@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	// "time"
 	// "fmt"
 )
 
@@ -45,13 +46,17 @@ func (cc *CradController) Show(w http.ResponseWriter, r *http.Request, ps httpro
 
 	name := ps.ByName("crad")
 
+	// t1 := time.Now()
 	crad, ok := cc.Crads[name]
+	// t2 := time.Now()
 
+	// fmt.Printf("Lookup Time: %#v \n", t2.Sub(t1))
 	if !ok {
 		http.Error(w, "Does not exist", http.StatusNotFound)
 		return
 	}
 
+	// t3 := time.Now()
 	js, err := json.Marshal(crad)
 
 	if err != nil {
@@ -59,7 +64,12 @@ func (cc *CradController) Show(w http.ResponseWriter, r *http.Request, ps httpro
 		return
 	}
 
+	// t4 := time.Now()
+	// fmt.Printf("Marshall Time: %#v \n", t4.Sub(t3))
+
 	w.Write(js)
+
+	return
 }
 
 func (cc *CradController) Search(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

@@ -2,7 +2,7 @@ package crad
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"github.com/julienschmidt/httprouter"
 	"io/ioutil"
 	"net/http"
@@ -16,7 +16,7 @@ func (dc *DeckController) Show(w http.ResponseWriter, r *http.Request, ps httpro
 	deckname := ps.ByName("deckname")
 	username := ps.ByName("username")
 
-	fmt.Printf("Deckname: %#v, Username: %#v \n", deckname, username)
+	// fmt.Printf("Deckname: %#v, Username: %#v \n", deckname, username)
 
 	user := UserByUsername(username)
 
@@ -24,7 +24,7 @@ func (dc *DeckController) Show(w http.ResponseWriter, r *http.Request, ps httpro
 
 	deck := user.Decks[deckIndex]
 
-	fmt.Printf("Deck: %#v\n User: %#v \n", deck, user)
+	// fmt.Printf("Deck: %#v\n User: %#v \n", deck, user)
 
 	js, err := json.Marshal(deck)
 
@@ -110,7 +110,7 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 		return
 	}
 
-	fmt.Printf("Deck: %#v \n", tmpDeck["deck"])
+	// fmt.Printf("Deck: %#v \n", tmpDeck["deck"])
 	deckIndex := user.DeckByName(tmpDeck["deck"]["name"].(string))
 
 	if deckIndex == -1 {
@@ -121,7 +121,7 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 
 	areCrads := tmpDeck["deck"]["crads"]
 
-	fmt.Printf("Are Crads: %#v \n", areCrads)
+	// fmt.Printf("Are Crads: %#v \n", areCrads)
 
 	crads := areCrads.([]interface{})
 
@@ -129,13 +129,13 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 
 	deck.Crads = make(map[string]DeckCrad)
 
-	fmt.Printf("Crads: %#v \n", crads)
+	// fmt.Printf("Crads: %#v \n", crads)
 
 	for _, tmpCrad := range crads {
 		crad := tmpCrad.(map[string]interface{})
 		q := int(crad["quantity"].(float64))
 		n := crad["name"].(string)
-		fmt.Println("CRADDINGIGGINGIGNGINGIGNISDIFGN")
+		// fmt.Println("CRADDINGIGGINGIGNGINGIGNISDIFGN")
 		if q > 4 {
 			q = 4
 		}
@@ -144,7 +144,7 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 		}
 		_, okay := dc.Crads[n]
 		if okay != true {
-			fmt.Println("NOT OKAY CRAD")
+			// fmt.Println("NOT OKAY CRAD")
 			user.Valid  = false;
 			deck.Errors = append(deck.Errors, "Crad "+n+" does not exist")
 		} else {
@@ -156,13 +156,13 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 		}
 	}
 
-	fmt.Printf("Deck Crads: %#v \n", deck.Crads)
+	// fmt.Printf("Deck Crads: %#v \n", deck.Crads)
 
 	user.Decks[deckIndex] = deck
 
 	user.Validate()
 
-	fmt.Printf("Users: %#v \n", user)
+	// fmt.Printf("Users: %#v \n", user)
 
 	if user.Valid && isChanged == true {
 		_, userCollection := GlobalConnection.GetDB()

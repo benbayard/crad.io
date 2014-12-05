@@ -1,39 +1,40 @@
-<h2 class="page-name ui dividing header">{{deck.name}}</h2>
-<section class="newing-the-crads">
+<h2 class="page-name ui dividing header">Make a New Deck</h2>
+<section class="editing-the-crads">
   <form novalidate
       class=     "new-deck ui form" 
       name=      "newDeck"  
       ng-submit= "saveDeck()"
       accessible-form>
-    <section class="input-wrapper field" ng-class="{ 'has-error' : newDeck.name.$invalid && (newDeck.crads.$touched || newDeck.$submitted)}">
-      <div class="crad-wrapper" ng-repeat="crad in deck.crads track by $index">
-        <input type=        "number" 
-               name=        "quantity" 
-               class=       "crad-quantity"
-               max=         "4"
-               min=         "1"
-               placeholder= "1" 
-               ng-model=    "crad.quantity"
-               onblur="this.value.split(' ').join('')"
-               ng-keypress= "gotoCradname(crad, $event)"
-               required
-        />
-        <input type=        "text" 
-               name=        "name" 
-               class=       "crad-name"
-               placeholder= "Cradddddddd" 
-               ng-model=    "crad.name"
-               ng-keyup=    "suggestCard(crad); handleCradChange(crad, $event)"
-               ng-change=   "setCrad(crad)"
-               required
-        />
-        <p class="crad"> {{crad}} </p>
-        <div class="suggestions">
-          <p ng-repeat="suggestion in crad.suggestions" ng-class="{active: isCradName(crad, suggestion)}" ng-click="setName(crad, suggestion, deck)">{{suggestion}}</p>
-        </div>
-      </div>
-      <p>{{newDeck.$error}}</p>
+    <section class="two required fields">
+      <div class="input-wrapper field">
+        <label for="name">Deck Name</label>
+        <input 
+          type=    "text" 
+          id=      "deck.name" 
+          name=    "deck.name" 
+          ng-model="deck.name"
+          min=     "5"
+        >
+      </div>  
+      <div class="input-wrapper field">
+        <label for="format">Format</label>
+        <select name="format" ng-model="deck.format" id="format">
+          <option value="legacy">Legacy</option>
+          <option value="commander">Commander</option>
+          <option value="cradmander">Cradmander</option>
+          <option value="standard">Standard</option>
+          <option value="modern">Modern</option>
+          <option value="vintage">Vintage</option>
+        </select>
+      </div>    
     </section>
-    <input type="submit" value="SAVE ME" class="ui button blue">
+    <section class="one required fields">
+      <div class="input-wrapper field">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" ng-model="deck.description" cols="30" rows="10"></textarea>
+      </div>
+    </section>
+    <input type="submit" value="SAVE ME" class="ui button blue" ng-class="{disabled: !admin}">
+    {{deck.name}} {{deck.format}} {{deck.description}}
   </form>
-</section>
+</section>    

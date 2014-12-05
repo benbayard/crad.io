@@ -2,7 +2,7 @@ package crad
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"github.com/julienschmidt/httprouter"
 	"io/ioutil"
 	"net/http"
@@ -12,7 +12,7 @@ type UserController struct{}
 
 func (uc *UserController) Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	DatabaseConnect()
-	fmt.Printf("Global Connection: ", GlobalConnection)
+	// fmt.Printf("Global Connection: ", GlobalConnection)
 
 	_, userCollection := GlobalConnection.GetDB()
 
@@ -180,7 +180,7 @@ func (uc *UserController) Update(w http.ResponseWriter, r *http.Request, ps http
 		user.Save(newUser)
 	}
 
-	fmt.Printf("User: %#v \n", user)
+	// fmt.Printf("User: %#v \n", user)
 
 	js, err := json.Marshal(user)
 

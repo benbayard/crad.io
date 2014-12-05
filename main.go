@@ -6,7 +6,37 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
+	"compress/gzip"
+	"io"
+	"strings"
 )
+
+type gzipResponseWriter struct {
+	io.Writer
+	http.ResponseWriter
+}
+ 
+func (w gzipResponseWriter) Write(b []byte) (int, error) {
+	return w.Writer.Write(b)
+}
+ 
+
+type gzipHandler struct {
+	handler http.Handler
+}
+
+func (gzh *gzipHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("\n|      Method      |      Path      |\n| %#v | %#v |\n", r.Method, r.URL.Path)
+	if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
+		gzh.handler.ServeHTTP(w, r)
+		return
+	}
+	w.Header().Set("Content-Encoding", "gzip")
+	gz := gzip.NewWriter(w)
+	defer gz.Close()
+	gzr := gzipResponseWriter{Writer: gz, ResponseWriter: w}
+	gzh.handler.ServeHTTP(gzr, r)	
+}
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	http.ServeFile(w, r, "assets/html/index.html")
@@ -16,7 +46,6 @@ func ServeFile(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	http.ServeFile(w, r, "assets/"+ps.ByName("file"))
 }
 
-// var GlobalConnection crad.DBConnection
 
 func main() {
 	router := httprouter.New()
@@ -27,8 +56,6 @@ func main() {
 		Cmcs:    cmcs,
 		CradAry: cradAry,
 	}
-
-	// crad.DatabaseConnect()
 
 	uc := &crad.UserController{}
 	dc := &crad.DeckController{
@@ -62,6 +89,10 @@ func main() {
 
 	fmt.Println("Starting Server...")
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	gzh := &gzipHandler{
+		handler: router,
+	}
+
+	log.Fatal(http.ListenAndServe(":8080", gzh))
 
 }
