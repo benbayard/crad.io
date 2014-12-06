@@ -4,11 +4,36 @@
   margin-bottom: 2rem;
   background: rgba(255,255,255,0.95);
   box-shadow: 0px 1px 0px 0px rgba(83,69,64,0.16),0px 1px 2px 0px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+  @include respond-to(mobile) { 
+    padding: 0 $body-spacing*2;
+    .crad-logo {
+      margin: 0px auto;
+      // flex: 1;
+    }
+    .logo-title {
+      display: none;
+    }
+  }
   .navigate-site {
     display: flex;
     align-items: center;
     height: 100%;
   }
+}
+
+.navigate-site .menu {
+  // align-self: flex-end;
+  // justify-self: flex-end;
+  margin-left: auto!important;
+  margin-top: 0px!important;
+
+}
+
+.ui.secondary.menu .dropdown.item .menu.menu {
+  min-width: 100%;
+  left: -50%;
 }
 
 .crad-logo {
@@ -20,8 +45,6 @@
   height: $logo-height;
 
   border-radius: $logo-width;
-    
-  $header-teal: #009FDA;
 
   background: $header-teal;
 
@@ -70,10 +93,72 @@
 .logo-title {
   font-size: 1.75rem;
   margin: 0px 1rem;
+  color: $header-teal;
   .subtitle {
     font: {
       size: 1rem;
       weight: 100;
     }
+  }
+}
+
+$bar-width:   20px;
+$bar-height:  3px;
+$bar-spacing: 7px;
+
+@include respond-to(mobile) {
+  .navigate-site .menu {
+    display: none;
+  }
+  %bar {
+    display:  block;
+    content:  "";
+    width:    $bar-width;
+    height:   $bar-height;
+    background: #ccc;
+    // margin-bottom: 10px;
+    border: {
+      radius: $bar-height/2;
+    }
+
+    transition: all .25s ease;
+  }
+  .menu-toggle {
+    // we are going to draw the hamburger
+    @extend %bar;
+    position: relative;
+    margin-right: 10px;
+    &.active {
+      background: transparent;
+      // transform: rotate(45deg) translate3d(0,0,0);  
+      &:before, &:after {
+        top: 0px;
+      }
+      &:before {
+        transform: rotate(45deg) translate3d(0,0,0);
+      }
+      &:after {
+        transform: rotate(-45deg) translate3d(0,0,0);
+        
+      }
+    }
+    &:before, &:after {
+      transform: rotate(0deg)  translate3d(0,0,0);
+
+    }
+    &:before {
+      @extend %bar;
+      position: absolute;
+      top: $bar-spacing;
+    }
+    &:after {
+      @extend %bar;
+      bottom: $bar-spacing;
+      position: absolute;
+    }
+  }
+  .placeholder-toggle {
+    display: block;
+    width: $bar-width;
   }
 }

@@ -5,6 +5,11 @@
   <div class="ui button" ng-class="{active: isActive('column')}" ng-click="active = 'column';"><i class="icon columns"></i></div>
 </div>
 
+<section class="no-crads" ng-hide="hasCrads()">
+  <h1 class="no-crads">There are no crads in your deck. Please edit the deck to add some crads. </h1>
+
+</section>
+
 <section class="ui" ng-class="{cards: isActive('block'), 'very relaxed list': isActive('list')}" ng-hide="isActive('column');" ng-show="!editing" >
   <div class="crad" ng-class="{card: isActive('block'), 'item': isActive('list')}" ng-repeat="crad in deck.crads track by $index">
     <div ng-class="{'image crad-image-holder': isActive('block'), 'ui avatar image': isActive('list')}"><img ng-src="http://mtgimage.com/card/{{crad.name}}.crop.jpg" alt=""></div>

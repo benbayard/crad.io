@@ -4,12 +4,34 @@
 
 body {
   font-smoothing: antialiased;
+  font-size: 15px;
 }
+html {
+  position: relative;;
+}
+
+html,body {
+  overflow-x: hidden;
+  width:100%;
+  max-width: 100vw;
+  position: relative;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.mask {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: rgba(white, .5);
+  z-index: 9;
 }
 
 @import "reset";
@@ -21,3 +43,4 @@ input::-webkit-inner-spin-button {
 @import "modules/buttons";
 @import "modules/crads";
 @import "modules/crads-form";
+@import "modules/panels";

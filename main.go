@@ -27,9 +27,15 @@ type gzipHandler struct {
 
 func (gzh *gzipHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("\n|      Method      |      Path      |\n| %#v | %#v |\n", r.Method, r.URL.Path)
+
 	if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
 		gzh.handler.ServeHTTP(w, r)
 		return
+	}
+
+	if !strings.Contains(r.URL.Path, "assets") {
+		gzh.handler.ServeHTTP(w, r)
+		return	
 	}
 	w.Header().Set("Content-Encoding", "gzip")
 	gz := gzip.NewWriter(w)

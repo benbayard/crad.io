@@ -1,0 +1,29 @@
+<section class="my-account">
+  <h4 class="ui horizontal header divider">
+    <i class="user icon"></i>
+    {{user.username}}
+  </h4>
+  <h5 class="label"> Name </h6>
+  <p> {{user.name}} </p>
+  <div class="ui horizontal divider"></div>
+  <h5 class="label">Email</h5>
+  <p> {{user.email}} </p>
+  <div class="ui horizontal divider"></div>
+  <h5 class="label">Email</h5>
+  <p> {{user.email}} </p>
+  <div class="ui horizontal divider"></div>
+  <h4 class="ui horizontal header divider">
+    <i class="icon grid layout"></i>
+    Decks
+  </h4>
+  <section class="list-decks">
+    <div class="ui very relaxed list divided" ng-repeat="deck in user.decks">
+      <div class="item">
+        <div class="content">
+          <div class="header">{{deck.name}}</div>
+          {{deck.description}}
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

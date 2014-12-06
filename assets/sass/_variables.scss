@@ -1,6 +1,8 @@
 $header-height: 60px;
-$body-height:   calc(100vh - #{$header-height} - 4rem);
+$body-height:   calc(100vh - #{$header-height});
 
 $body-spacing: .5rem;
+
+$header-teal: #3B83C0;
 
 $information-phone: "only screen and (max-width : 320px)";

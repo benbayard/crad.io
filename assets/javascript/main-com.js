@@ -1,11 +1,11 @@
-var app = angular.module("crad", ['ngRoute', 'ngTouch', 'ngResource']);
+var app = angular.module("crad", ['ngRoute', 'ngTouch']);
 
 app.config([
   "$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
     $routeProvider.when("/app/login", {
       templateUrl: "/assets/html/login.html",
       controller: "LoginController"
-    }).when("/app/account", {
+    }).when("/app/account/:username", {
       templateUrl: "/assets/html/account.html",
       controller: "AccountController"      
     }).when("/app/decks/:username/new", {
@@ -17,6 +17,9 @@ app.config([
     }).when("/app/decks/:username/:deckname/edit", {
       templateUrl: "/assets/html/edit-deck.html",
       controller:  "EditDeckController"      
+    }).otherwise({
+      templateUrl: "/assets/html/homepage.html",
+      controller:  "HomeController"      
     });
     
     return $locationProvider.html5Mode(true);
@@ -31,6 +34,14 @@ app.directive("sitewideHeader", function() {
   };
 });
 
+app.directive("navMask", function(){
+  return {
+    restrict: "E",
+    template: "<div class='mask' ng-if='active' ng-click='toggleNav()'></div>",
+    controller: "NavMaskController"
+  }
+});
+
 app.directive("navAside", function() {
   return {
     restrict: "E",
@@ -39,11 +50,47 @@ app.directive("navAside", function() {
   }
 });
 
-app.controller('SitewideHeaderController', ['$scope', function($scope){
-  
+app.controller('HomeController', ['$rootScope', '$scope', '$location', function($rootScope, $scope, $location) {
+  $rootScope.homepage = true;
+  $rootScope.$on("$routeChangeSuccess", function() {
+    if ($location.path() === "/" || $location.path() === "" || $location.path() === "/app/") {
+      $rootScope.homepage = true;
+    } else {
+      $rootScope.homepage = false;
+
+    }
+  })
+}]);
+
+app.controller('NavMaskController', ['$rootScope', '$scope', function($rootScope, $scope) {
+  $scope.toggleNav = function() {
+    $rootScope.active = !$rootScope.active;
+  }
+}]);
+
+app.controller('SitewideHeaderController', ['$scope', '$location', function($scope, $location){
+  $scope.active   = false;
+  $scope.dropdown = false;
+  $scope.toggleHeader = function() {
+    $scope.active = !$scope.active;
+  }
+
+  $scope.$on("$routeChangeSuccess", function() {
+    $scope.dropdown = false;
+  });
+
+  $scope.isActive = function(path) {
+    console.log($location.path().indexOf(path) > -1);
+    return $location.path().indexOf(path) > -1;
+  }
+
+  $scope.toggleDropdown = function() {
+    $scope.dropdown = !$scope.dropdown;
+  }
 }]);
 
 app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$location',function($scope, $rootScope, $http, $location){
+  $scope.active = false;
   if (localStorage.token) {
     $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;
     $rootScope.loggedIn = true;
@@ -55,10 +102,25 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
     $scope.user = JSON.parse(localStorage.user);
     $http.post("/admin/" + $scope.user.username, {}).success(function(data) {
       $scope.user = data;
+    }).error(function() {
+      $rootScope.loggedIn = false;
     });
   } else {
     $scope.user = {};
   }
+
+  $scope.$on("$routeChangeSuccess", function() {
+    $rootScope.active = false;
+  });
+
+  $rootScope.$on("toggleheader", function() {
+    $scope.active = !$scope.active;
+  });
+
+  $rootScope.$on("deckadded", function(e, deckWrapper) {
+    console.log(arguments);
+    $scope.user.decks.push(deckWrapper.deck);
+  });
 
   console.log($scope.user.decks);
 
@@ -107,6 +169,13 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
   $scope.isActive = function(type) {
     return type == $scope.active;
   }
+
+  $scope.hasCrads = function() {
+    console.log($scope.deck)
+    for (var key in $scope.deck.crads) {
+      if (hasOwnProperty.call($scope.deck.crads, key)) return true;
+    }
+  }
   // if ($rootScope.user.)
   $http.get("/decks/" + $routeParams.username + "/" + $routeParams.deckname)
     .success(function(data) {
@@ -147,13 +216,16 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
 
 }]);
 
-app.controller('AccountController', ['$scope', '$http', function($scope, $http){
-  
+app.controller('AccountController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
+  $http.post("/admin/" + $routeParams.username, {}).success(function(data) {
+    $scope.user = data;
+  });  
 }]);
 
 
 
-app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location) {
+
+app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$location', '$rootScope', function($scope, $routeParams, $http, $location, $rootScope) {
   $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;  
 
   $scope.deck = {};
@@ -167,8 +239,12 @@ app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$locati
     $http.post("/decks/"+ $routeParams.username, {
       deck: $scope.deck
     }).success(function(data) {
-      window.theData = data;
-      // $location.path("/decks/" + $routeParams.username + "/" + $scope.deck.name);
+      // window.theData = data;
+      // $rootScope.user.decks.push(data);
+      $rootScope.$broadcast("deckadded", {
+        "deck": data
+      });
+      $location.path("/decks/" + $routeParams.username + "/" + $scope.deck.name);
     });
   }
 

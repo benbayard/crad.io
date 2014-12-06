@@ -21,7 +21,10 @@ func (dc *DeckController) Show(w http.ResponseWriter, r *http.Request, ps httpro
 	user := UserByUsername(username)
 
 	deckIndex := user.DeckByName(deckname)
-
+	if deckIndex == -1 {
+		http.Error(w, "Not Found", http.StatusNotFound)
+		return
+	}
 	deck := user.Decks[deckIndex]
 
 	// fmt.Printf("Deck: %#v\n User: %#v \n", deck, user)

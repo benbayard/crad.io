@@ -1,10 +1,35 @@
 <header class="sitewide-header">
   <nav class="navigate-site">
+      <i class="menu-toggle" ng-class="{'active': active}" ng-click="toggleHeader()"></i>
       <i class="crad-logo">
       </i>
       <h1 class="logo-title">
         Crad.io
         <p class="subtitle">The place for crads</p>
       </h1>
+      <i class="placeholder-toggle"></i>
+      <div class="ui secondary pointing menu blue">
+        <a class="item" ng-class="{'active': isActive('/')}" ng-href="/">
+          <i class="home icon"></i> Home
+        </a>
+        <div class="ui pointing dropdown link item"  ng-class="{'active': (dropdown || isActive('decks'))}" style="opacity:1;" ng-show="loggedIn">
+          <span ng-click="toggleDropdown()"> <i class="layout grid icon"></i> Decks <i class="dropdown icon"></i></span>
+          <div class="menu" ng-class="{'visible transition': dropdown}">
+            <div class="header">Decks</div>
+            <div class="item" ng-repeat="deck in user.decks"><a ng-href="/app/decks/{{user.username}}/{{deck.name}}" ng-click="toggleDropdown()">{{deck.name}}</a></div>
+            <div class="divider"></div>
+            <div class="item">
+              <div class="spacer">
+                <a href="/app/decks/user.username/new" class="ui inverted positive button add-new center large"><i class="icon plus"></i> Add Deck</a>              
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item" ng-show="loggedIn">
+          
+            <i class="user icon"></i> Account <i class="dropdown icon"></i>
+          </div>
+        </div>
+      </div>
   </nav>
 </header>

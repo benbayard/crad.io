@@ -1,0 +1,45 @@
+.panel {
+  height: calc(100vh - #{$header-height} - 0rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  &:first-of-type {
+    background: $header-teal;
+  }
+}
+
+%panel-text {
+  font: {
+    weight: 100;
+  }
+  text: {
+    align: center;
+  }
+  color: white;
+}
+
+.panel-heading {
+  font-size: 2.5rem;
+
+  @extend %panel-text;
+}
+
+.panel-subheading {
+  font: {
+    size:   2.0rem;
+    weight: 400;
+  }
+  @extend %panel-text;
+}
+
+.panel-buttons {
+  margin-top: 30px;
+  text-align: center;
+  .or {
+    @extend %panel-text;
+    font-size: 1.75rem;
+    margin-top: 1rem;
+  }
+}

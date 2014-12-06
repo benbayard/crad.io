@@ -12,15 +12,14 @@
 <body ng-app="crad">
   <sitewide-header></sitewide-header>
   <main class="site-scaffold">
-      <nav-aside class="sitewide-navigation ui vertical menu"></nav-aside>
-      <article class="sitewide-body">
+      <nav-aside class="sitewide-navigation ui vertical menu" ng-class="{active: active}"></nav-aside>
+      <article class="sitewide-body" ng-class="{homepage: homepage, active: active}">
         <div ng-view></div>
       </article>
   </main>
+  <nav-mask></nav-mask>
   <sitewide-footer></sitewide-footer>
   <script src="/assets/bower_components/angular/angular.js"></script>
-  <script src="/assets/bower_components/angular-animate/angular-animate.js"></script>
-  <script src="/assets/bower_components/angular-resource/angular-resource.js"></script>
   <script src="/assets/bower_components/angular-route/angular-route.js"></script>
   <script src="/assets/bower_components/angular-touch/angular-touch.js"></script>
   <script src="/assets/javascript/main-com.js"></script>

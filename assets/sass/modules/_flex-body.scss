@@ -8,11 +8,51 @@
   flex-grow: 100%;
 }
 
-.sitewide-navigation {
+.sitewide-navigation.ui.vertical.menu {
   flex: 3; 
+  display: none;
   height: $body-height;
-  margin-bottom: 2rem;
-  @extend %not-mobile;
+  margin-bottom: 0;
+  border-radius: 0px;
+  overflow-y: scroll; // has to be scroll, not auto
+  -webkit-overflow-scrolling: touch;
+  margin-top: -2rem;
+  margin-left: 0px!important;
+  padding-top: 1rem;
+  background: linear-gradient(to right, #262632, lighten(#262632, 5));
+  color: white;
+  * {
+    color: white;
+  }
+  a.item {
+    color: white;
+    &:hover {
+      color: white!important;
+    }
+  }
+  @include respond-to(mobile) {
+    display: block;
+    position: absolute;
+    width: 80%!important;
+    top: 0px;
+    margin-top: 0px;
+    right: -100%;
+    transform: translate3d(0,0,0);
+    transition: all .25s ease;
+    height: 100vh;
+    z-index: 10;
+    &.active {
+      right: 0px;
+      transform: translate3d(0,0,0);
+    }
+    .item {
+      font-size: 1.3rem;
+      .menu .item.item.item {
+        font-size: 1.1rem;
+        line-height: 1.4;
+      }
+    }
+  }
   @extend %site-element;
 }
 
@@ -28,4 +68,17 @@
   padding: 1rem;
   @extend %site-element;
 
+  &.homepage {
+    margin: {
+      right: 0px!important;
+      left:  0px!important;   
+      top:   -2rem;   
+    }
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+  }
+  &.active {
+    filter: blur(20px);
+  }
 }

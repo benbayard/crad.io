@@ -1,4 +1,4 @@
-app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location) {
+app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$location', '$rootScope', function($scope, $routeParams, $http, $location, $rootScope) {
   $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.token;  
 
   $scope.deck = {};
@@ -12,8 +12,12 @@ app.controller('NewDeckController', ['$scope', '$routeParams', '$http', '$locati
     $http.post("/decks/"+ $routeParams.username, {
       deck: $scope.deck
     }).success(function(data) {
-      window.theData = data;
-      // $location.path("/decks/" + $routeParams.username + "/" + $scope.deck.name);
+      // window.theData = data;
+      // $rootScope.user.decks.push(data);
+      $rootScope.$broadcast("deckadded", {
+        "deck": data
+      });
+      $location.path("/decks/" + $routeParams.username + "/" + $scope.deck.name);
     });
   }
 

@@ -3,9 +3,9 @@
     <div class="item">
       <i class="user icon"></i>Account
       <div class="menu">
-        <a class="nav-to item" data-ng-href="/app/account" ng-class="{active: isActive('/app/account')}"  >My Account <i class="angle right icon"></i></a>
+        <a class="nav-to item" data-ng-href="/app/account/{{user.username}}" ng-class="{active: isActive('/app/account/{{user.username}}')}"  >My Account <i class="angle right icon"></i></a>
 
-        <a class="nav-to item" ng-click="logOut()">Log Out</a>
+        <a class="nav-to item" ng-click="logOut()">Log Out<i class="angle right icon"></i></a>
       </div>
     </div>
     
@@ -21,7 +21,7 @@
       <div class="menu">
         <a ng-href="/app/decks/{{user.username}}/{{deck.name}}" class="deck item" ng-repeat="deck in user.decks">{{deck.name}}<i class="angle right icon"></i></a>
       </div>
-      <a class="ui teal basic button center" ng-href="/app/decks/{{user.username}}/new"><i class="icon add"></i> Add Deck</a>
+      <a class="ui teal basic button center inverted" ng-href="/app/decks/{{user.username}}/new"><i class="icon add inverted"></i> Add Deck</a>
     </div>
   </nav>
 </aside>
