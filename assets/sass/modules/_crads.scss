@@ -54,3 +54,24 @@
     text-shadow: 1px 1px 1px black;
   }
 }
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @include respond-to(mobile) { justify-content: center; }
+  .type {
+    // flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 270px;
+    margin-right: 1rem;
+    .divider {
+      align-self: flex-end;
+      display: block;
+      width: 100%;
+      margin-top: auto;
+    }
+  }
+}

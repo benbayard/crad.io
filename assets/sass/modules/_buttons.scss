@@ -3,7 +3,7 @@
   display: flex;
 }
 
-.button.center {
+.button.center, .icon.center {
   position: relative;
   left: 50%;
   transform: translateX(-50%);

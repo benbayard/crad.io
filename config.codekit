@@ -2827,6 +2827,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/assets\/html\/new-user.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/html\/new-user.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/assets\/html\/sitewide-header.html": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -2853,6 +2862,17 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/javascript\/_new-deck-controller.js",
 		"outputAbbreviatedPath": "\/assets\/javascript\/min\/_new-deck-controller-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"syntaxCheckerStyle": 0
+		},
+	"\/assets\/javascript\/_new-user-controller.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/assets\/javascript\/_new-user-controller.js",
+		"outputAbbreviatedPath": "\/assets\/javascript\/min\/_new-user-controller-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -3100,6 +3120,12 @@
 			"followForSyntaxChecking": 1,
 			"linkedFileAbbreviatedPath": "\/assets\/javascript\/_edit-deck-controller.js",
 			"position": 1,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/assets\/javascript\/_new-user-controller.js",
+			"position": 2,
 			"type": 1
 			}
 		]

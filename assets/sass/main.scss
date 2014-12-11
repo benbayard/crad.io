@@ -4,7 +4,11 @@
 
 body {
   font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased!important;
   font-size: 15px;
+}
+button {
+  -webkit-font-smoothing: antialiased;
 }
 html {
   position: relative;;
@@ -32,6 +36,11 @@ input::-webkit-inner-spin-button {
   bottom: 0px;
   background: rgba(white, .5);
   z-index: 9;
+}
+
+i.icon:before {
+  background: none !important;
+  -webkit-font-smoothing: antialiased!important;
 }
 
 @import "reset";

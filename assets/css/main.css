@@ -1,6 +1,10 @@
 body {
   font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased !important;
   font-size: 15px; }
+
+button {
+  -webkit-font-smoothing: antialiased; }
 
 html {
   position: relative; }
@@ -26,6 +30,10 @@ input::-webkit-inner-spin-button {
   bottom: 0px;
   background: rgba(255, 255, 255, 0.5);
   z-index: 9; }
+
+i.icon:before {
+  background: none !important;
+  -webkit-font-smoothing: antialiased !important; }
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -277,9 +285,6 @@ button {
     box-shadow: none;
     padding: 0;
     background: transparent; }
-  .sitewide-body.active {
-    -webkit-filter: blur(20px);
-            filter: blur(20px); }
 
 .nav-to {
   padding: 1rem;
@@ -288,7 +293,7 @@ button {
   display: -ms-flexbox;
   display: flex; }
 
-.button.center {
+.button.center, .icon.center {
   position: relative;
   left: 50%;
   -webkit-transform: translateX(-50%);
@@ -388,6 +393,49 @@ button {
     color: white;
     text-shadow: 1px 1px 1px black; }
 
+.columns {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+  @media only screen and (max-width: 767px) {
+    .columns {
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center; } }
+  .columns .type {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    min-width: 270px;
+    margin-right: 1rem; }
+    .columns .type .divider {
+      -webkit-align-self: flex-end;
+          -ms-flex-item-align: end;
+              align-self: flex-end;
+      display: block;
+      width: 100%;
+      margin-top: auto; }
+
 .ui.form .crad-wrapper {
   display: -webkit-box;
   display: -webkit-flex;
@@ -436,6 +484,12 @@ button {
       margin: 0px; }
       .ui.form .crad-wrapper .suggestions p.active {
         background: #F8F8F8; }
+
+.each-error {
+  text-transform: capitalize; }
+
+.errors {
+  margin-bottom: 3rem; }
 
 .panel {
   height: -webkit-calc(100vh - 60px - 0rem);

@@ -5,6 +5,9 @@ app.config([
     $routeProvider.when("/app/login", {
       templateUrl: "/assets/html/login.html",
       controller: "LoginController"
+    }).when("/app/account/new", {
+      templateUrl: "/assets/html/new-user.html",
+      controller: "NewUserController"      
     }).when("/app/account/:username", {
       templateUrl: "/assets/html/account.html",
       controller: "AccountController"      
@@ -76,17 +79,22 @@ app.controller('SitewideHeaderController', ['$scope', '$location', function($sco
   }
 
   $scope.$on("$routeChangeSuccess", function() {
-    $scope.dropdown = false;
+    $scope.dropdown = '';
   });
 
   $scope.isActive = function(path) {
-    console.log($location.path().indexOf(path) > -1);
+    // console.log($location.path().indexOf(path) > -1);
     return $location.path().indexOf(path) > -1;
   }
 
-  $scope.toggleDropdown = function() {
-    $scope.dropdown = !$scope.dropdown;
+  $scope.toggleDropdown = function(what) {
+    if ($scope.dropdown === what) { $scope.dropdown = ''; return }
+    $scope.dropdown = what;
   }
+  $scope.activeDropdown = function(what) {
+    return $scope.dropdown === what;
+  }
+
 }]);
 
 app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$location',function($scope, $rootScope, $http, $location){
@@ -103,6 +111,8 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
     $http.post("/admin/" + $scope.user.username, {}).success(function(data) {
       $scope.user = data;
     }).error(function() {
+      delete localStorage.token;
+      delete localStorage.user;
       $rootScope.loggedIn = false;
     });
   } else {
@@ -118,18 +128,19 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
   });
 
   $rootScope.$on("deckadded", function(e, deckWrapper) {
-    console.log(arguments);
+    // console.log(arguments);
     $scope.user.decks.push(deckWrapper.deck);
   });
 
-  console.log($scope.user.decks);
+  // console.log($scope.user.decks);
 
   $scope.isActive = function(path) {
     return path == $location.path();
   }
 
   $scope.logOut = function() {
-    delete localStorage.token
+    delete localStorage.token;
+    delete localStorage.user;
     $rootScope.loggedIn = false;
   }
 }]);
@@ -137,7 +148,7 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
 app.controller('LoginController', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope){
   $scope.user = {};
   $scope.getToken = function() {
-    console.log("function is running dawg")
+    // console.log("function is running dawg")
     $http.post("/login", {
       "email":    $scope.user.email,
       "password": $scope.user.password
@@ -171,7 +182,7 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
   }
 
   $scope.hasCrads = function() {
-    console.log($scope.deck)
+    // console.log($scope.deck)
     for (var key in $scope.deck.crads) {
       if (hasOwnProperty.call($scope.deck.crads, key)) return true;
     }
@@ -179,12 +190,12 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
   // if ($rootScope.user.)
   $http.get("/decks/" + $routeParams.username + "/" + $routeParams.deckname)
     .success(function(data) {
-      console.log("SUCCESSSS");
-      console.log(data);
+      // console.log("SUCCESSSS");
+      // console.log(data);
       $scope.deck = data;
       for (cradName in $scope.deck.crads) {
         var crad = $scope.deck.crads[cradName];
-        console.log(crad);
+        // console.log(crad);
         window.crads = $scope.deck.crads;
         if(localStorage[crad.name]) {
           $scope.deck.crads[crad.name].cradData = JSON.parse(localStorage[crad.name]);
@@ -197,7 +208,7 @@ app.controller('DeckController', ['$scope', '$http', '$routeParams', '$rootScope
           $http.get("/crad/" + crad.name).success(function(data) {
             localStorage[data.name] = JSON.stringify(data);
             $scope.deck.crads[data.name].cradData = data;
-            console.log(data);
+            // console.log(data);
             window.crads = $scope.deck.crads;
             if ($scope.types[crad.cradData.types[0]] == undefined) {
               $scope.types[crad.cradData.types[0]] = new Array($scope.deck.crads[crad.name]);

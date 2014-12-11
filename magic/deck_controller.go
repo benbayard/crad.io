@@ -138,9 +138,10 @@ func (dc *DeckController) AddCrad(w http.ResponseWriter, r *http.Request, ps htt
 		crad := tmpCrad.(map[string]interface{})
 		q := int(crad["quantity"].(float64))
 		n := crad["name"].(string)
-		// fmt.Println("CRADDINGIGGINGIGNGINGIGNISDIFGN")
-		if q > 4 {
-			q = 4
+		if realCrad := dc.Crads[n]; len(realCrad.Supertypes) > 0 && realCrad.Supertypes[0] != "Basic" {
+			if q > 4 {
+				q = 4
+			}			
 		}
 		if q < 1 {
 			q = 1

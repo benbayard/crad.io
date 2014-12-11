@@ -137,6 +137,19 @@ app.controller('EditDeckController', ['$scope', '$routeParams', '$http', '$locat
     return false;
   }
 
+  $scope.deckHasError = function(errorList) {
+    // console.log("Errors! ", errors === {});
+    for (errors in errorList) {
+      for (var i = 0; i < errorList[errors].length; i++) {
+        console.log()
+        if (errorList[errors][i].$touched) {
+          return true
+        }
+      }
+    }
+    return false;
+  }
+
   $scope.saveDeck = function() {
     console.log("SAVING!");
     delete $scope.deck.crads["new-crad"];

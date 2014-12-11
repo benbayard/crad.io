@@ -1,5 +1,5 @@
-<h2 class="page-name ui dividing header">{{deck.name}} <i class="circular inverted teal edit icon edit-button" ng-click="startEditing()"></i></h2>
-<div class="ui icon buttons" ng-show="!editing">
+<h2 class="page-name ui dividing header">{{deck.name}} <a ng-href="/app/decks/{{user.username}}/{{deck.name}}/edit" class="ui red inverted mini button" ng-if="admin"><i class="edit icon"></i>Edit</a></h2>
+<div class="ui center icon buttons" ng-show="!editing">
   <div class="ui button" ng-class="{active: isActive('block')}" ng-click="active = 'block';"><i class="icon block layout"></i></div>
   <div class="ui button" ng-class="{active: isActive('list')}" ng-click="active = 'list';"><i class="icon list layout"></i></div>
   <div class="ui button" ng-class="{active: isActive('column')}" ng-click="active = 'column';"><i class="icon columns"></i></div>
@@ -33,8 +33,8 @@
   <div class="type" ng-repeat="(key, crads) in types">
     <h3> {{key}} {{crads.length}} </h3>
     <section class="ui very relaxed list">
-      <div class="crad item" ng-repeat="crad in crads">
-        <div class="ui avatar image"><img ng-src="http://mtgimage.com/card/{{crad.name}}.jpg" alt=""></div>
+      <div class="crad item" ng-repeat="crad in crads track by $index">
+        <div class="ui avatar image"><img ng-src="http://mtgimage.com/card/{{crad.name}}.crop.jpg" alt=""></div>
         <div class="content">
           <p class="header">{{crad.name}}</p>
           <div class="meta">

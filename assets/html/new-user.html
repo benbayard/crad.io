@@ -1,0 +1,55 @@
+<h2 class="page-name ui dividing header">Register For crad.io</h2>
+<section class="editing-the-crads">
+  <form novalidate
+      class=     "new-user ui form" 
+      name=      "newUser"  
+      ng-submit= "makeUser()"
+      accessible-form>
+    <section class="two required fields">
+      <section class="input-wrapper field">
+        <label for="name">Name</label>
+        <input 
+          type=    "text" 
+          id=      "user.name" 
+          name=    "user.name" 
+          ng-model="user.name"
+          min=     "5"
+        >
+      </section>  
+      <section class="input-wrapper field" ng-class="{ 'has-error' : newUser.name.$invalid && (newUser.email.$touched || newUser.$submitted)}">
+        <label for="email">Email</label>
+        <input type="email" 
+               name="email" 
+               placeholder="blah@blah.com" 
+               ng-model="user.email"
+               ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"
+               required
+        />
+      </section>
+    </section>
+    <section class="two required fields">
+      <section class="input-wrapper field" ng-class="{ 'has-error' : newUser.name.$invalid && (newUser.name.$touched || newUser.$submitted)}">
+        <label for="password">Username</label>
+        <input type="text" 
+               name="user.username" 
+               placeholder="********" 
+               ng-model="user.username"
+               ng-min-length="6"
+               required
+        /> 
+      </section> 
+      <section class="input-wrapper field" ng-class="{ 'has-error' : newUser.password.$invalid && (newUser.password.$touched || newUser.$submitted)}">
+        <label for="password">Password</label>
+        <input type="password" 
+               name="password" 
+               placeholder="********" 
+               ng-model="user.password"
+               ng-min-length="8"
+               required
+        />  
+      </section>
+    </section>
+    <button class="ui button blue"><i class="icon user"></i>REGISTER</button>
+    <!-- {{user.name}} {{user.format}} {{user.description}} -->
+  </form>
+</section>    
