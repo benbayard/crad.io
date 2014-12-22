@@ -111,6 +111,8 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
     $http.post("/admin/" + $scope.user.username, {}).success(function(data) {
       $scope.user = data;
     }).error(function() {
+      delete localStorage.token;
+      delete localStorage.user;
       $rootScope.loggedIn = false;
     });
   } else {
@@ -137,7 +139,8 @@ app.controller('NavAsideController', ['$scope', '$rootScope', '$http', '$locatio
   }
 
   $scope.logOut = function() {
-    delete localStorage.token
+    delete localStorage.token;
+    delete localStorage.user;
     $rootScope.loggedIn = false;
   }
 }]);
@@ -439,7 +442,9 @@ app.controller('EditDeckController', ['$scope', '$routeParams', '$http', '$locat
 }]);
 
 app.controller('NewUserController', ['$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location) {
-  
+  $scope.user = {};
+
+  $http.post("/user/new")
 }]);
 
 
